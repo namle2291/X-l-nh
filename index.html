@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>XỬ LÝ ẢNH</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+        <style>
+            body{
+                background: url("bg.png") no-repeat center center fixed;
+                background-size: cover;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row shadow p-3 mt-5 bg-light rounded-5">
+            <p class="text-center display-6 text-primary">Chèn Logo Vào Ảnh</p>
+            <div class="col-lg-6">
+                <canvas id="canvas" class="border"></canvas>
+                <div class="form-group d-flex justify-content-between">
+                    <div>
+                        <input type="file" id="input_file" multiple="multiple" class="d-none" />
+                        <label for="input_file" class="btn btn-sm btn-dark mt-2">Chọn ảnh cần chèn</label>
+                    </div>
+                    <div>
+                        <input type="file" id="input_logo" class="d-none">
+                        <button id="btn-add-logo" class="btn btn-sm btn-success mt-2">Chèn ảnh</button>
+                        <label for="input_logo" id="btn_select_logo" class="btn btn-sm btn-danger mt-2" style="display: none;"> -> Chọn ảnh</label>
+                        <button id="btn-add-text" class="btn btn-sm btn-info mt-2">Chèn chữ</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div id="box-add-logo" class="shadow-sm border p-2" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Trục X</label>
+                        <input class="form-control" value="50" type="number" id="input_logoX" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trục Y</label>
+                        <input class="form-control" value="50" type="number" id="input_logoY" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kích thước</label>
+                        <input class="form-range" value="100" min="50" type="range" id="input_logoSize" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Xoay</label>
+                        <input class="form-range" value="0" min="0" max="360" type="range" id="input_rotate_logo" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Độ mờ ảnh</label>
+                        <input class="form-range" value="100" min="0" max="100" type="range" id="input_alpha_logo" />
+                    </div>
+                </div>
+                <div id="box-add-text" class="shadow-sm border p-2" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Nhập nội dung</label>
+                        <div class="d-flex">
+                            <input class="form-control" type="text" id="input_text" />
+                            <button id="btn_chen" class="btn btn-sm btn-secondary mx-2">
+                                Chèn
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Màu sắc</label>
+                        <input class="form-control" type="color" id="input_color" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kích thước chữ</label>
+                        <input class="form-range" value="30" min="20" max="72" type="range" id="input_size" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">In đậm</label>
+                        <input type="checkbox" id="input_bold">
+                        <label class="form-label">In nghiên</label>
+                        <input type="checkbox" id="input_italic">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phông chữ</label>
+                        <select id="select_font" class="form-select">
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Time New Roman</option>
+                            <option value="San Serif">San Serif</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Cursive">Cursive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trục X</label>
+                        <input class="form-control" value="50" type="number" id="input_rangeX" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trục Y</label>
+                        <input class="form-control" value="50" type="number" id="input_rangeY" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Xoay</label>
+                        <input class="form-range" value="0" min="1" max="360" type="range" id="input_rotate" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Độ mờ chữ</label>
+                        <input class="form-range" value="100" min="0" max="100" type="range" id="input_alpha" />
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-success btn_download mt-2" style="display: none;">
+                    Tải xuống
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
